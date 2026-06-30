@@ -1,0 +1,33 @@
+# Credentials
+.env
+*.secret
+
+# Virtual environment
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Database
+data/pipeline.db
+
+# Runtime data
+data/scraped/
+data/stories/
+logs/
+
+# OS
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+# Topic bank (generated, not committed)
+data/topic_bank.yaml
+
+# local backups
+*.bak.*

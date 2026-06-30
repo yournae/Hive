@@ -1,0 +1,17 @@
+[Unit]
+Description=Hive Content Pipeline — Auto-post Scheduler
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/hive
+EnvironmentFile=/opt/hive/.env
+ExecStart=/opt/hive/venv/bin/python3 /opt/hive/main.py run
+Restart=always
+RestartSec=30
+StandardOutput=append:/opt/hive/logs/systemd.log
+StandardError=append:/opt/hive/logs/systemd_err.log
+SyslogIdentifier=fb-pipeline
+
+[Install]
+WantedBy=multi-user.target

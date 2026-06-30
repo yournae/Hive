@@ -1,0 +1,46 @@
+wikipedia:
+  lang: id
+
+facebook:
+  api_version: v21.0
+
+schedule:
+  timezone: Asia/Jakarta
+  # mode: "fixed" = post di jam-jam tetap (times di bawah)
+  #       "interval" = post tiap N jam mulai dari start_hour (times di-generate otomatis)
+  mode: fixed
+  times:
+    - "08:00"
+    - "13:00"
+    - "20:00"
+  # Dipakai hanya saat mode: interval
+  interval_hours: 4     # post tiap berapa jam sekali
+  start_hour: 8         # jam mulai post pertama (0-23)
+  rest_start: 22
+  rest_end: 6
+
+auto_generate:
+  stock_min: 5
+  batch_size: 3
+
+publish:
+  max_retries: 3
+  max_chars: 20000
+
+# ── Story generation (panjang narasi) ──
+# max_chars di atas = batas potong final (hard limit).
+# Di bawah ini = target panjang yang diminta ke LLM:
+story:
+  min_chars: 16000      # minimum yang diminta ke model
+  target_min: 18000     # target bawah
+  target_max: 19500     # target atas (budget per-section di-scale dari sini)
+  max_tokens: 25000     # batas teknis output LLM (≈ target_max / 0.78)
+  auto_continue: true   # kalau body < min_chars, sambung otomatis (bukan re-generate)
+  max_continuations: 2  # maksimum berapa kali nyambung sebelum nyerah
+
+# ── LLM retry / ketahanan rate-limit (429 "server overloaded") ──
+ai:
+  max_retries: 2            # outer attempt per slot
+  ratelimit_retries: 4      # retry combo SAMA saat 429 sebelum fallback ke model lain
+  ratelimit_backoff: 8      # detik, base backoff (8 → 16 → 32 → 60...)
+  ratelimit_backoff_max: 60 # cap backoff per retry
